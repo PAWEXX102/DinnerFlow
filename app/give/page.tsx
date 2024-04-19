@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import {
   getUsersPerName,
-  getClass,
   getUserData,
   GiveGift,
+  getClassNumber,
 } from "@/Backend/fetch";
 import { LinkButton } from "@/components/Button";
 import { AuthContext } from "@/provider/AuthProvider";
@@ -27,7 +27,7 @@ export default function GiveDinner() {
   const [serach, setSearch] = useState("");
   const [users, setUsers] = useState<any[]>([]);
   const [Currentclas, setCurrentClas] = useState("");
-  const [classes, setClasses] = useState<any[]>([]);
+  const [classesNumber, setClassesNumber] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any>({});
   const [usersLoaded, setUsersLoaded] = useState(false);
   const [modalType, setModalType] = useState(true);
@@ -41,14 +41,13 @@ export default function GiveDinner() {
         setUsersLoaded(true);
       });
     } else {
-      console.log("Search", serach);
       getUsersPerName(UserInfo.uid, Currentclas, serach).then((response) => {
         setUsers(response);
         setUsersLoaded(true);
       });
     }
-    getClass().then((response) => {
-      setClasses(response);
+    getClassNumber().then((response) => {
+      setClassesNumber(response);
     });
     getUserData(UserInfo.uid).then((response) => {
       setCurrentUser(response);
@@ -84,20 +83,20 @@ export default function GiveDinner() {
             onChange={(e: any) => setSearch(e.target.value)}
           />
           <Select
-            placeholder="Podaj klasę"
+            placeholder="Podaj numer"
             label="Klasa"
             variant="bordered"
             onChange={(e) => setCurrentClas(e.target.value)}
             className=" font-medium sm:max-w-[10rem] max-w-[20rem] rounded-xl"
           >
-            {classes &&
-              classes.map((clas) => (
+            {classesNumber &&
+              classesNumber.map((clas) => (
                 <SelectItem key={clas} value={clas} className=" font-medium">
                   {clas}
                 </SelectItem>
               ))}
           </Select>
-          
+
         </div>
         <Skeleton
           isLoaded={usersLoaded}

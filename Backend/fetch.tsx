@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { db, firestore } from "@/services/firebase";
 import { get, ref } from "firebase/database";
 import {
@@ -12,21 +13,6 @@ import {
 import { getDownloadURL, ref as storageRef } from "firebase/storage";
 import { storage } from "@/services/firebase";
 import { query, where } from "firebase/firestore";
-
-export const fetchRealTimeDataBase = async (RefName: string) => {
-  const dbRef = ref(db, RefName);
-  const snapshot = await get(dbRef);
-  if (snapshot.exists()) {
-    let data = snapshot.val();
-    if (!Array.isArray(data)) {
-      data = [data];
-    }
-    return data;
-  } else {
-    console.log("No data available");
-    return [];
-  }
-};
 
 export const fetchFirestoreCollection = async (RefName: string) => {
   const querySnapshot = await getDocs(collection(firestore, RefName));
@@ -131,13 +117,13 @@ export const getUsersPerName = async (
   return data;
 };
 
-export const getClass = async () => {
+export const getClassNumber = async () => {
   const docSnapshot = await getDoc(
     doc(firestore, "class", "29GwAdXa7tNjOTcnB39A")
   );
   const data: any[] = [];
   if (docSnapshot.exists()) {
-    const classes = docSnapshot.data().Names;
+    const classes = docSnapshot.data().Numbers;
     classes.forEach((classItem: any) => {
       data.push(classItem);
     });

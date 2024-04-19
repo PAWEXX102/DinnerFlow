@@ -1,18 +1,9 @@
 "use client";
-
-import { fetchRealTimeDataBase } from "@/Backend/fetch";
 import { useEffect, useState } from "react";
 import {LinkButton} from "./Button";
 
 export const PricePlans = () => {
 const [plans, setPlans] = useState<[string, number][]>([]);
-useEffect(() => {
-    fetchRealTimeDataBase('PricePlans').then((data:any) => {
-        const arrayData: [string, number][] = Object.entries(data).map(([plan, price]) => [plan, Number(price)]);
-        arrayData.sort((a: [string, number], b: [string, number]) => a[1] - b[1]);
-        setPlans(arrayData);
-    });
-}, []);
 
   return (
     <>

@@ -21,6 +21,7 @@ const GetUserData = async (values: any, ID: any) => {
     class: values.class,
     email: values.email,
     password: values.password,
+    Gift: Timestamp.fromDate(new Date()),
     usedDate: Timestamp.fromDate(
       new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
     ),
