@@ -135,7 +135,7 @@ async function getImage(){
            </div>
 
            <div
-           style={{backgroundImage: `url('./delete.png')`}}
+           style={{backgroundImage: `url('./bin.png')`}}
            className="w-10 h-10 rounded-xl ml-2 mt-4 bf-no-repeat bg-contain bg-center flex flex-col justify-center items-center gap-6">
            <button
            onClick={()=> handleDelete(menu.id) }
@@ -163,7 +163,7 @@ async function getImage(){
               </ModalHeader>
               <ModalBody className=" items-center">
                 <Image
-                  src={modalType ? "/usun_animation.gif" : "/xmark.gif"}
+                  src={modalType ? "/bin-file.gif" : "/xmark.gif"}
                   alt="Information GIF"
                   width={300}
                   height={300}

@@ -10,6 +10,7 @@ import React from "react";
 import { Input } from "@nextui-org/react";
 import {Calendar} from "@nextui-org/react";
 import { LinkButton } from '@/components/Button';
+import {menuValidation} from "@/validationSchema/menu";
 
 async function getImage() {
     const image = await getFirebaseImageURL("rosół.jpg");
@@ -26,15 +27,20 @@ const Admin = () => {
         })
     })
 
-    const handleNew = async () => {
-        const Name = prompt("Podaj nazwe menu");
-        const Description = prompt("Podaj opis menu");
-
-        const collectionRef = collection(firestore, "Menu");
-        const payload = { Name, Description };
-        const docRef = await addDoc(collectionRef, payload);
-        console.log("The new ID is" + docRef.id);
-    }
+    const handleNew=async(values:any)=>{
+        const Name=values.Name;
+        const Description=values.Description;
+    
+        const collectionRef=collection(firestore,"menu");
+        const payload={Name,Description};
+    
+        if(Name==null||Description==null){
+          alert("Please fill in all fields");
+      }else{
+        const docRef=await addDoc(collectionRef,payload);
+        console.log("The new ID is:"+docRef.id );
+      }
+      }
 
     return (
 
@@ -43,6 +49,7 @@ const Admin = () => {
              <p className="text-neutral-400 text-xl">
                  Utwórz nowy obiad
              </p>
+             <form>
              <div className="flex flex-row  justify-center bg-gray-100 rounded-xl">
                 <div className="flex flex-col py-5 px-8 w-[60%]">
                     <label htmlFor="Name"
@@ -77,8 +84,8 @@ const Admin = () => {
                         Dodaj
                     </button>
              </div>
+             </form>
              </div>
-
     )
 }
 export default Admin;
