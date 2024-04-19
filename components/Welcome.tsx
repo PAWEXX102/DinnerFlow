@@ -22,12 +22,6 @@ export default function Welcome() {
       setUserData(response);
       setLoading(false);
     });
-    async function fetchSentences() {
-      const sentences = await fetchFirestoreCollection("proverbs");
-      const randomSentence =
-        sentences[Math.floor(Math.random() * sentences.length)];
-      setRandomSentence(randomSentence);
-    }
 
     async function CheckDinner() {
       const docSnap = await getDoc(doc(firestore, "users", userInfo.uid));
@@ -59,7 +53,6 @@ export default function Welcome() {
         throw new Error("No User Data!");
       }
     }
-    fetchSentences();
     CheckDinner();
   }, []);
   return (
@@ -70,11 +63,6 @@ export default function Welcome() {
           <span className=" text-blue-500">{userData && userData.name} </span>
           🙂
         </h1>
-      </Skeleton>
-      <Skeleton isLoaded={!loading} className=" w-[50%] h-10">
-        <p className=" sm:text-xl w-max text-lg bg-transparent text-neutral-400">
-          &quot;{randomSentence && randomSentence.title}&quot;
-        </p>
       </Skeleton>
       <Skeleton isLoaded={!loading} className=" w-max h-20">
         <div className=" flex items-center text-center gap-x-2">

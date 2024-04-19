@@ -68,7 +68,7 @@ const Header = () => {
             label={
               user.isLogin && pathname === PROFILE_ROUTE
                 ? "Wyloguj się"
-                : "Zaczniij Teraz"
+                : "Zacznij Teraz"
             }
             href={!user.isLogin ? LOGIN_ROUTE : PROFILE_ROUTE}
             onClick={user.isLogin ? logOut : undefined}

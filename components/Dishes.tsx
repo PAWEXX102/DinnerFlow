@@ -7,7 +7,7 @@ function getDayOfWeek(timestamp: number) {
 
   const day = date.getDay();
 
-  const days = ["N", "P", "W", "Ś", "C", "P", "S"];
+  const days = ["Nd", "Pn", "Wt", "Śr", "Czw", "Pt", "So"];
 
   return days[day];
 }
@@ -32,8 +32,7 @@ export default function DishCard({ dish }: { dish: any }) {
 
   return (
     <div
-      className=" border-2 w-[13rem] h-[13rem] flex flex-col justify-between text-center bg-center bg-cover bg-no-repeat rounded-xl border-black"
-      style={{ backgroundImage: `url('${imageURL}')` }}
+      className=" border-2 w-44 h-44 flex flex-col justify-between text-center bg-center bg-cover bg-no-repeat rounded-xl border-black"
     >
       <div
         className=" flex justify-between px-4 pt-2 pb-2 text-center bg-cover bg-center bg-no-repeat items-center rounded-t-lg"

@@ -82,14 +82,6 @@ export default function Home() {
           </div>
         </section>
       </AnimationSlideY>
-      <AnimationSlideY>
-        <section>
-          <h1 className="text-4xl mb-10 font-bold text-center mt-20">Ceny</h1>
-          <div className="flex md:flex-row flex-col gap-10">
-            <PricePlans />
-          </div>
-        </section>
-      </AnimationSlideY>
       {isSmallDevice ? (
         <AnimationSlideY>
           <section className=" bg-blue-50/75 rounded-xl lg:p-20 p-14 mt-20 text-center">

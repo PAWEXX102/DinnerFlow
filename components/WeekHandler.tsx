@@ -68,7 +68,10 @@ export default function WeekHandler() {
         📅 {format(start * 1000, "dd.MM.yyyy")} -{" "}
         {format(end * 1000, "dd.MM.yyyy")} 📅
       </p>
-      <div ref={scout}>
+      <div
+        className=" flex flex-wraw gap-40 items-center justify-center"
+        ref={scout}
+      >
         {menu &&
           (() => {
             const thisWeekDishes = Object.keys(menu).filter((key: string) => {
@@ -89,7 +92,6 @@ export default function WeekHandler() {
             ));
           })()}
       </div>
-
       <div className=" flex  flex-col-reverse gap-y-4 sm:flex-row justify-between">
         <LinkButton
           label="Poprzedni Tydzień"
