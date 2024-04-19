@@ -25,7 +25,7 @@ const Login = () => {
     console.log("Login form values", values);
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((response) => {
-        if (values.email === 'admin@admin.pl' && values.password === 'admin123') {
+        if (values.email === 'admin@gmail.com' && values.password === 'admin123') {
           router.push('/admin');
         } else{
           router.push(PROFILE_ROUTE);
