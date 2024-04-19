@@ -32,15 +32,14 @@ export default function DishCard({ dish }: { dish: any }) {
 
   return (
     <div
-      className=" border-2 w-[20rem] h-[20rem] flex flex-col justify-between text-center bg-center bg-cover bg-no-repeat rounded-xl border-black"
+      className=" border-2 w-[13rem] h-[13rem] flex flex-col justify-between text-center bg-center bg-cover bg-no-repeat rounded-xl border-black"
       style={{ backgroundImage: `url('${imageURL}')` }}
     >
       <div
-        style={{ backgroundImage: `url('./Shadow1.png')` }}
-        className=" flex justify-between px-2 pt-2 pb-2 text-center bg-cover bg-center bg-no-repeat items-center rounded-t-lg"
+        className=" flex justify-between px-4 pt-2 pb-2 text-center bg-cover bg-center bg-no-repeat items-center rounded-t-lg"
       >
-        <h1 className=" font-medium text-xl text-neutral-100">{dish.Name}</h1>
-        <div className=" text-white bg-blue-400 size-10 text-center font-semibold  rounded-lg border-2 border-blue-800 text-2xl items-center flex justify-center">
+        <h1 className=" font-medium text-xl text-black">{dish.Name}</h1>
+        <div className=" text-black text-xl font-medium">
           {getDayOfWeek(dish.Time.seconds)}
         </div>
       </div>

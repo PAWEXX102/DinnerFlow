@@ -56,8 +56,9 @@ export default function WeekHandler() {
   };
 
   useEffect(() => {
-    fetchFirestoreCollection("Menu").then((response) => {
+    fetchFirestoreCollection("menu").then((response) => {
       setMenu(response);
+      console.log(response);
     });
   }, []);
 
