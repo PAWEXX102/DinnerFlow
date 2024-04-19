@@ -1,15 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  getUsersPerName,
-  getUserData,
-  GiveGift,
-  getClassNumber,
-} from "@/Backend/fetch";
+import { useState } from "react";
+import { GiveGift } from "@/Backend/fetch";
 import { LinkButton } from "@/components/Button";
 import { AuthContext } from "@/provider/AuthProvider";
-import { Select, SelectItem, Input, Skeleton } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import {
   Modal,
   ModalContent,
@@ -22,46 +17,22 @@ import {
 import Image from "next/image";
 
 export default function GiveDinner() {
+  const [search, setSearch] = useState("");
   const { user }: any = AuthContext();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [serach, setSearch] = useState("");
-  const [users, setUsers] = useState<any[]>([]);
-  const [Currentclas, setCurrentClas] = useState("");
-  const [classesNumber, setClassesNumber] = useState<any[]>([]);
-  const [currentUser, setCurrentUser] = useState<any>({});
-  const [usersLoaded, setUsersLoaded] = useState(false);
   const [modalType, setModalType] = useState(true);
 
   const UserInfo = user.user;
 
-  useEffect(() => {
-    if (serach.length <= 0) {
-      getUsersPerName(UserInfo.uid, Currentclas).then((response) => {
-        setUsers(response);
-        setUsersLoaded(true);
-      });
-    } else {
-      getUsersPerName(UserInfo.uid, Currentclas, serach).then((response) => {
-        setUsers(response);
-        setUsersLoaded(true);
-      });
-    }
-    getClassNumber().then((response) => {
-      setClassesNumber(response);
-    });
-    getUserData(UserInfo.uid).then((response) => {
-      setCurrentUser(response);
-    });
-    setUsersLoaded(false);
-  }, [Currentclas, serach]);
-
   const handleGift = async (user: any) => {
-    await GiveGift(user.id).then((response: boolean) => {
+    console.log("User", search);
+    await GiveGift(search, UserInfo.uid).then((response: boolean) => {
       if (response) {
         setModalType(true);
       } else {
         setModalType(false);
       }
+      setSearch("");
       onOpen();
     });
   };
@@ -75,71 +46,19 @@ export default function GiveDinner() {
       <div className=" flex flex-col gap-y-4">
         <div className=" py-5 flex flex-wrap gap-3 justify-center shadow-custom rounded-xl items-center text-center rounded-t-xl">
           <Input
-            type="text"
-            label="Imię"
-            placeholder="Wpisz imię"
+            type="email"
+            label="Email"
             variant="bordered"
-            className=" sm:max-w-[20rem] max-w-[20rem] rounded-xl font-medium"
-            onChange={(e: any) => setSearch(e.target.value)}
+            value={search}
+            className="max-w-[20rem]"
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <Select
-            placeholder="Podaj numer"
-            label="Klasa"
-            variant="bordered"
-            onChange={(e) => setCurrentClas(e.target.value)}
-            className=" font-medium sm:max-w-[10rem] max-w-[20rem] rounded-xl"
-          >
-            {classesNumber &&
-              classesNumber.map((clas) => (
-                <SelectItem key={clas} value={clas} className=" font-medium">
-                  {clas}
-                </SelectItem>
-              ))}
-          </Select>
-
+          <LinkButton
+            label="Podaruj"
+            onClick={() => handleGift(user)}
+            className=" bg-blue-500 text-white font-bold px-12 w-[20rem] sm:w-[10rem] py-4 rounded-xl hover:text-blue-500 hover:bg-white hover:border-blue-500 border-[2px] border-white"
+          />
         </div>
-        <Skeleton
-          isLoaded={usersLoaded}
-          className={` ${
-            users.length > 0 ? "shadow-custom" : ""
-          } rounded-xl text-center`}
-        >
-          {users.length <= 0 ? (
-            <p className=" text-3xl font-bold pt-20">
-              Aby oddać komuś swój obiad, podaj jego imię
-            </p>
-          ) : (
-            users.map((user, index) => {
-              return (
-                <div
-                  key={index}
-                  className=" border-2 m-3 rounded-lg flex items-center justify-between sm:p-5 p-3"
-                >
-                  <div className="sm:text-center items-start sm:items-center flex sm:flex-row flex-col gap-x-3">
-                    <div className=" flex sm:gap-x-4 gap-x-1 text-center">
-                      <h1 className=" sm:text-2xl text-lg font-bold">
-                        {user.name}
-                      </h1>
-                      <h1 className="sm:text-2xl text-lg font-bold text-balance overflow-hidden overflow-ellipsis whitespace-nowrap">
-                        {user.surname}
-                      </h1>
-                    </div>
-                    <p className=" sm:text-xl font-medium text-gray-400">
-                      {user.class}
-                    </p>
-                  </div>
-                  <div className=" flex">
-                    <LinkButton
-                      label="Podaruj"
-                      onClick={() => handleGift(user)}
-                      className=" bg-blue-500 text-white font-bold sm:px-12 sm:py-4 px-9 py-3 rounded-lg hover:text-blue-500 hover:bg-white hover:border-blue-500 border-[2px] border-white"
-                    />
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </Skeleton>
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>

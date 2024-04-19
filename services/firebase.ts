@@ -11,13 +11,13 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // Attention Please add your firebase console config here
 const firebaseConfig = {
-  apiKey: "AIzaSyDOnGQYuJZBDqp14jRalwqtHnDzTIi-F3w",
-  authDomain: "dinner-flow-2.firebaseapp.com",
-  projectId: "dinner-flow-2",
-  storageBucket: "dinner-flow-2.appspot.com",
-  messagingSenderId: "173343481183",
-  appId: "1:173343481183:web:0f57e15b8262016d81eaea",
-  measurementId: "G-JLM8B8Z7PN"
+  apiKey: "AIzaSyDtjL2poI_7rPYiwoOY8kwE34ZzM6fCM9Y",
+  authDomain: "dinner-3.firebaseapp.com",
+  projectId: "dinner-3",
+  storageBucket: "dinner-3.appspot.com",
+  messagingSenderId: "933693689176",
+  appId: "1:933693689176:web:10e8bc0b91277045f2292d",
+  measurementId: "G-097ZWG8K54"
 };
 
 // Initialize Firebase

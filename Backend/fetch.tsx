@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { db, firestore } from "@/services/firebase";
 import { get, ref } from "firebase/database";
 import {
@@ -97,7 +96,7 @@ export const getUsersPerName = async (
   name?: string
 ) => {
   let quer;
-  if (clas === "Wszystkie") {
+  if (clas === "Wszyscy") {
     quer = collection(firestore, "users");
   } else {
     quer = query(collection(firestore, "users"), where("class", "==", clas));
@@ -117,18 +116,19 @@ export const getUsersPerName = async (
   return data;
 };
 
-export const getClassNumber = async () => {
+export const getClass = async () => {
   const docSnapshot = await getDoc(
-    doc(firestore, "class", "29GwAdXa7tNjOTcnB39A")
+    doc(firestore, "class", "mJKZq6VUokR2bksRGdd9")
   );
   const data: any[] = [];
   if (docSnapshot.exists()) {
-    const classes = docSnapshot.data().Numbers;
+    const classes = docSnapshot.data().Name;
     classes.forEach((classItem: any) => {
       data.push(classItem);
     });
+    console.log(data);
   }
-  return data;
+  return data || [];
 };
 
 export const NewDish = async (value: any) => {
@@ -136,20 +136,55 @@ export const NewDish = async (value: any) => {
   await addDoc(docRef, value);
 };
 
-export const GiveGift = async (uid: string) => {
-  const docRef = doc(firestore, "users", uid);
-  const docSnap = await getDoc(docRef);
-  const giftDate = docSnap.data()?.Gift?.toDate();
+export const GiveGift = async (email: string, uidUser: string) => {
+  const userQuery = query(collection(firestore, "users"), where("email", "==", email));
+  const userQuerySnapshot = await getDocs(userQuery);
+  if (userQuerySnapshot.empty) {
+    return false;
+  }
+  const docRefGift = doc(firestore, "users", userQuerySnapshot.docs[0].id);
+  const docGiftSnap = await getDoc(docRefGift);
+  const docRefUser = doc(firestore, "users", uidUser);
+  const docUserSnap = await getDoc(docRefUser);
+  const giftDate = docGiftSnap.data()?.Gift?.toDate();
+  const UserPaidDate = docUserSnap.data()?.paidDate?.toDate();
+  const UserUsedDate = docUserSnap.data()?.usedDate?.toDate();
   const currentDate = new Date();
-  const normalizedGiftDate = new Date(2000, giftDate.getMonth(), giftDate.getDate());
-  const normalizedCurrentDate = new Date(2000, currentDate.getMonth(), currentDate.getDate());
-  console.log(normalizedGiftDate, normalizedCurrentDate);
-  if (normalizedGiftDate < normalizedCurrentDate) {
-    await updateDoc(docRef, {
+  const normalizedGiftDate = new Date(
+    2000,
+    giftDate.getMonth(),
+    giftDate.getDate()
+  );
+  const normalizedCurrentDate = new Date(
+    2000,
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
+  const normalizedUserPaidDate = new Date(
+    2000,
+    UserPaidDate.getMonth(),
+    UserPaidDate.getDate()
+  );
+  const normalizedUserUsedDate = new Date(
+    2000,
+    UserUsedDate.getMonth(),
+    UserUsedDate.getDate()
+  );
+  if (
+    normalizedGiftDate < normalizedCurrentDate &&
+    normalizedUserPaidDate >= normalizedCurrentDate &&
+    normalizedUserUsedDate < normalizedCurrentDate
+  ) {
+    await updateDoc(docRefGift, {
       Gift: Timestamp.fromDate(new Date()),
     });
+    await updateDoc(docRefUser, {
+      usedDate: Timestamp.fromDate(
+        new Date(new Date().setDate(new Date().getDate()))
+      ),
+    });
     return true;
-  }else{
+  } else {
     return false;
   }
 };
@@ -159,12 +194,20 @@ export const CheckGift = async (uid: string) => {
   const docSnap = await getDoc(docRef);
   const giftDate = docSnap.data()?.Gift?.toDate();
   const currentDate = new Date();
-  const normalizedGiftDate = new Date(2000, giftDate.getMonth(), giftDate.getDate());
-  const normalizedCurrentDate = new Date(2000, currentDate.getMonth(), currentDate.getDate());
+  const normalizedGiftDate = new Date(
+    2000,
+    giftDate.getMonth(),
+    giftDate.getDate()
+  );
+  const normalizedCurrentDate = new Date(
+    2000,
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
   console.log(normalizedGiftDate, normalizedCurrentDate);
   if (normalizedGiftDate >= normalizedCurrentDate) {
     return true;
-  }else{
+  } else {
     return false;
   }
-}
+};
