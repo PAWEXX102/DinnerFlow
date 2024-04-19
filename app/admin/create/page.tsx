@@ -11,6 +11,8 @@ import { Input } from "@nextui-org/react";
 import {Calendar} from "@nextui-org/react";
 import { LinkButton } from '@/components/Button';
 import {menuValidation} from "@/validationSchema/menu";
+import { useRouter } from 'next/navigation';
+
 
 async function getImage() {
     const image = await getFirebaseImageURL("rosół.jpg");
@@ -18,6 +20,8 @@ async function getImage() {
 }
 
 const Admin = () => {
+
+    const router=useRouter();
 
     const [menu, setMenu] = useState<any>([]);
 
@@ -39,6 +43,7 @@ const Admin = () => {
       }else{
         const docRef=await addDoc(collectionRef,payload);
         console.log("The new ID is:"+docRef.id );
+        router.push("/admin");
       }
       }
 

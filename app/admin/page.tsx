@@ -81,7 +81,7 @@ async function getImage(){
 
 
   return (
-    <div className="w-full pt-32 mx-[6%] flex flex-col gap-y-20 bg-white m-0">
+    <div className="bg-white shadow-custom py-20 rounded-xl flex flex-col items-center justify-center text-center">
       <section>
         <h1 className=" font-semibold text-7xl">
           Witaj{" "}
@@ -112,14 +112,14 @@ async function getImage(){
   {menu.map((menu:any, id:number)=>(
     <div key={menu.id}
      className="flex justify-start">
-        <div className="mt-3 py-5 px-8 bg-gray-300 rounded-lg mb-4 lg:w-[50%] w-[100%]">
+        <div className="mt-3 py-5 px-8 bg-gray-300 rounded-lg mb-4 w-80 h-80 flex justify-between">
           <div className="flex justify-between">
             <div
-             className=" w-[400px] h-[120px] bg-blue-600  rounded-xl mr-3"></div>
+             className="w-[120px] h-[120px] bg-blue-600  rounded-xl mr-3"></div>
             <div>
             <h1 className="text-xl">{menu.Name}</h1>
             <p
-            className="text-gray-600"
+            className="text-gray-600 overflow-hidden flex "
             >{menu.Description}</p>
             </div>
           </div>

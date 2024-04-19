@@ -15,7 +15,6 @@ import { usePathname } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/services/firebase";
 import { useRouter } from "next/navigation";
-
 import { AuthContext } from "@/provider/AuthProvider";
 
 const Header = () => {
@@ -40,6 +39,7 @@ const Header = () => {
         console.log("Logout Catch ", e.message);
       });
   };
+
   return (
     <nav
       className={`fixed z-40 flex justify-between font-bold w-full items-center text-center py-5 px-[6%] ${
