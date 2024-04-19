@@ -75,7 +75,7 @@ export default function WeekHandler() {
         {menu &&
           (() => {
             const thisWeekDishes = Object.keys(menu).filter((key: string) => {
-              const dishTime = menu[key].Time.seconds;
+              const dishTime = menu[key].Time?.seconds;
               return dishTime >= start && dishTime <= end;
             });
 

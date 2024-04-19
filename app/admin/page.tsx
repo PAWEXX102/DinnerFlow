@@ -114,7 +114,9 @@ const Admin = () => {
           <div key={menu.id} className="flex justify-start">
             <div className="mt-3 py-5 px-8 bg-gray-300 rounded-lg mb-4 w-80 h-80 flex justify-between">
               <div className="flex justify-between">
-                <div className="w-[120px] h-[120px] bg-blue-600  rounded-xl mr-3"></div>
+                <div className="w-[80px] h-[80px]  rounded-xl mr-3 flex justify-start">
+                  <Image src="/meal.png" alt='obiad' width={100} height={100} />
+                </div>
                 <div>
                   <h1 className="text-xl">{menu.Name}</h1>
                   <p className="text-gray-600 overflow-hidden flex ">

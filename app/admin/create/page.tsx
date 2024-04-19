@@ -84,12 +84,12 @@ const Admin = () => {
           </div>
         </div>
         <div className="flex justify-end">
-          <button
-            onClick={() => router.push("/admin")}
+          <Link
+            href='/admin'
             className="bg-gray-300 text-white px-3 py-2 rounded-xl mt-2 mr-2 text-md hover:bg-gray-200"
           >
             Wróć
-          </button>
+          </Link>
           <button
             onClick={() => handleNew()}
             className="bg-blue-500 text-white px-3 py-3 rounded-xl mt-2 text-md hover:bg-white hover:text-blue-500 border-gray-200 border-2 text-bold"
