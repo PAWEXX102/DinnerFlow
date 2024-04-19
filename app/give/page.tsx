@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getUsersPerName, getClass, getUserData, GiveGift } from "@/Backend/fetch";
+import {
+  getUsersPerName,
+  getClass,
+  getUserData,
+  GiveGift,
+} from "@/Backend/fetch";
 import { LinkButton } from "@/components/Button";
 import { AuthContext } from "@/provider/AuthProvider";
 import { Select, SelectItem, Input, Skeleton } from "@nextui-org/react";
@@ -25,6 +30,7 @@ export default function GiveDinner() {
   const [classes, setClasses] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any>({});
   const [usersLoaded, setUsersLoaded] = useState(false);
+  const [modalType, setModalType] = useState(true);
 
   const UserInfo = user.user;
 
@@ -53,14 +59,17 @@ export default function GiveDinner() {
   const handleGift = async (user: any) => {
     await GiveGift(user.id).then((response: boolean) => {
       if (response) {
-        onOpen();
+        setModalType(true);
+      } else {
+        setModalType(false);
       }
+      onOpen();
     });
   };
 
   return (
     <main className="pt-32 mx-[6%] flex flex-col gap-y-20">
-      <div className=" flex items-center gap-x-4 w-full justify-between">
+      <div className=" flex items-center gap-x-4">
         <h1 className=" text-5xl font-bold ">Podaruj komuś swój obiad </h1>
         <Image src="/gift-box.png" alt="GiftBox" width={100} height={500} />
       </div>
@@ -88,6 +97,7 @@ export default function GiveDinner() {
                 </SelectItem>
               ))}
           </Select>
+          
         </div>
         <Skeleton
           isLoaded={usersLoaded}
@@ -119,11 +129,13 @@ export default function GiveDinner() {
                       {user.class}
                     </p>
                   </div>
-                  <LinkButton
-                    label="Podaruj"
-                    onClick={() => handleGift(user)}
-                    className=" bg-blue-500 text-white font-bold sm:px-12 sm:py-4 px-9 py-3 rounded-lg hover:text-blue-500 hover:bg-white hover:border-blue-500 border-[2px] border-white"
-                  />
+                  <div className=" flex">
+                    <LinkButton
+                      label="Podaruj"
+                      onClick={() => handleGift(user)}
+                      className=" bg-blue-500 text-white font-bold sm:px-12 sm:py-4 px-9 py-3 rounded-lg hover:text-blue-500 hover:bg-white hover:border-blue-500 border-[2px] border-white"
+                    />
+                  </div>
                 </div>
               );
             })
@@ -134,15 +146,21 @@ export default function GiveDinner() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col text-lg gap-1 text-green-400">
-                Obiad został podarowany pomyślnie!
+              <ModalHeader
+                className={`flex flex-col text-lg gap-1 ${
+                  modalType ? "text-green-400" : "text-red-400"
+                }`}
+              >
+                {modalType
+                  ? "Udało się podarować obiad!"
+                  : "Nie udało się podarować obiadu"}
               </ModalHeader>
               <ModalBody className=" items-center">
                 <Image
-                  src="/double-check.gif"
-                  alt="GiftBox"
+                  src={modalType ? "/double-check.gif" : "/xmark.gif"}
+                  alt="Information GIF"
                   width={300}
-                  height={500}
+                  height={300}
                 />
               </ModalBody>
               <ModalFooter>

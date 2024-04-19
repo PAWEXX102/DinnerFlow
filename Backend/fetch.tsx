@@ -167,3 +167,18 @@ export const GiveGift = async (uid: string) => {
     return false;
   }
 };
+
+export const CheckGift = async (uid: string) => {
+  const docRef = doc(firestore, "users", uid);
+  const docSnap = await getDoc(docRef);
+  const giftDate = docSnap.data()?.Gift?.toDate();
+  const currentDate = new Date();
+  const normalizedGiftDate = new Date(2000, giftDate.getMonth(), giftDate.getDate());
+  const normalizedCurrentDate = new Date(2000, currentDate.getMonth(), currentDate.getDate());
+  console.log(normalizedGiftDate, normalizedCurrentDate);
+  if (normalizedGiftDate >= normalizedCurrentDate) {
+    return true;
+  }else{
+    return false;
+  }
+}

@@ -1,8 +1,12 @@
 "use client";
 import { AuthContext } from "@/provider/AuthProvider";
 import { useEffect, useState } from "react";
-import { fetchFirestoreCollection, getUserData } from "@/Backend/fetch";
-import { doc, getDoc, Timestamp } from "firebase/firestore";
+import {
+  fetchFirestoreCollection,
+  getUserData,
+  CheckGift,
+} from "@/Backend/fetch";
+import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "@/services/firebase";
 import { Skeleton } from "@nextui-org/react";
 
@@ -44,7 +48,9 @@ export default function Welcome() {
           ) {
             setDinnerAvailable(true);
           } else {
-            setDinnerAvailable(false);
+            CheckGift(userInfo.uid).then((response: boolean) => {
+              setDinnerAvailable(response);
+            });
           }
         } else {
           throw new Error("No Used Date or Paid Date!");
@@ -105,7 +111,11 @@ export default function Welcome() {
                 stroke="#EF4444"
                 className="w-8 h-8 mt-6"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </>
           )}
